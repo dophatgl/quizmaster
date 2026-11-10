@@ -1,0 +1,863 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuizMaster</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link rel="apple-touch-icon" href="assets/quizmaster-logo.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="main.js"></script>
+  </head>
+  <body>
+    <div id="app" class="app-layout">
+      <!-- App Header -->
+      <header class="app-header">
+        <div class="header-container">
+          <div class="brand" id="brand-logo" role="button" tabindex="0" title="Go to Hub" data-i18n-title="app.goToHub">
+            <div class="brand-icon" aria-hidden="true">
+              <img src="assets/quizmaster-logo.png" alt="" width="38" height="38" class="brand-logo-img" />
+            </div>
+            <div class="brand-text">
+              <div style="display:flex; align-items:center; gap:0.5rem;">
+                <span class="brand-title" data-i18n="app.brandTitle">QuizMaster</span>
+                <span class="backend-badge" id="backend-indicator" title="Driven by Rust Backend" data-i18n-title="app.backendRustTooltip">🦀 Rust</span>
+              </div>
+              <span class="brand-subtitle" data-i18n="app.brandSubtitle">Multiple Choice Quiz Studio</span>
+            </div>
+          </div>
+
+          <nav class="nav-links">
+            <button class="nav-tab active" data-view="hub" id="tab-hub">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+              <span data-i18n="nav.hub">Quiz Hub</span>
+            </button>
+            <button class="nav-tab" data-view="bank" id="tab-bank">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+              <span data-i18n="nav.bank">Question Bank</span>
+            </button>
+            <button class="nav-tab" data-view="history" id="tab-history">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <span data-i18n="nav.history">History</span>
+            </button>
+          </nav>
+
+          <div class="header-actions">
+            <!-- Language Selector -->
+            <div class="lang-selector-container">
+              <label for="select-language" class="sr-only" data-i18n="header.language">Select Language</label>
+              <div class="lang-picker" title="Language / Ngôn ngữ" data-i18n-title="header.language">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lang-globe-icon">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+                <select id="select-language" class="lang-select" aria-label="Select Language" data-i18n-aria-label="header.language">
+                  <option value="en">English (EN)</option>
+                  <option value="vi">Tiếng Việt (VI)</option>
+                  <option value="es">Español (ES)</option>
+                  <option value="fr">Français (FR)</option>
+                  <option value="ja">日本語 (JA)</option>
+                </select>
+              </div>
+            </div>
+
+            <button class="icon-btn" id="btn-shortcuts" title="Keyboard Shortcuts (?)" aria-label="Keyboard Shortcuts" data-i18n-title="header.shortcuts" data-i18n-aria-label="header.shortcuts">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+            </button>
+            <button class="icon-btn" id="btn-sound" title="Toggle Sound Effects" aria-label="Toggle Sound Effects" data-i18n-title="header.toggleSound" data-i18n-aria-label="header.toggleSound">
+              <span id="sound-icon-on">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
+              </span>
+              <span id="sound-icon-off" class="hidden">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <line x1="23" y1="9" x2="17" y2="15"></line>
+                  <line x1="17" y1="9" x2="23" y2="15"></line>
+                </svg>
+              </span>
+            </button>
+            <button class="icon-btn" id="btn-theme" title="Toggle Dark/Light Mode" aria-label="Toggle Theme" data-i18n-title="header.toggleTheme" data-i18n-aria-label="header.toggleTheme">
+              <span id="theme-icon-sun" class="hidden">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                  <line x1="1" y1="12" x2="3" y2="12"></line>
+                  <line x1="21" y1="12" x2="23" y2="12"></line>
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+              </span>
+              <span id="theme-icon-moon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+              </span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Body Container -->
+      <main class="main-content">
+        <!-- VIEW 1: QUIZ HUB / SETUP -->
+        <section id="view-hub" class="view-panel active">
+          <div class="hub-hero">
+            <div class="hero-content">
+              <div class="badge-pill" data-i18n="hub.hero.badge">Interactive Assessment & Learning</div>
+              <h1 data-i18n="hub.hero.title">Sharpen Your Mind with Smart Quizzes</h1>
+              <p data-i18n="hub.hero.subtitle">Practice with instant feedback, simulate timed exams, or customize your own questions library.</p>
+            </div>
+            <div class="hero-stats-row">
+              <div class="stat-card">
+                <div class="stat-num" id="stat-quizzes-taken">0</div>
+                <div class="stat-label" data-i18n="hub.stats.quizzesCompleted">Quizzes Completed</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num" id="stat-avg-score">0%</div>
+                <div class="stat-label" data-i18n="hub.stats.avgAccuracy">Avg. Accuracy</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num" id="stat-total-questions">0</div>
+                <div class="stat-label" data-i18n="hub.stats.questionsInBank">Questions in Bank</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hub-grid">
+            <!-- Left: Category Selection -->
+            <div class="hub-card">
+              <div class="card-header">
+                <h2 data-i18n="hub.card.selectCategory">1. Select Category</h2>
+                <span class="card-caption" data-i18n="hub.card.chooseTopic">Choose a topic to test</span>
+              </div>
+              <div class="category-grid" id="category-selector">
+                <!-- Dynamically populated or static categories -->
+                <div class="category-item active" data-category="all">
+                  <div class="cat-icon cat-all">🎯</div>
+                  <div class="cat-info">
+                    <div class="cat-title" data-i18n="hub.categories.all">All Topics (Mixed)</div>
+                    <div class="cat-count" id="count-all">0 questions</div>
+                  </div>
+                  <div class="cat-check">✓</div>
+                </div>
+
+                <div class="category-item" data-category="web">
+                  <div class="cat-icon cat-web">💻</div>
+                  <div class="cat-info">
+                    <div class="cat-title" data-i18n="hub.categories.web">Web & JavaScript</div>
+                    <div class="cat-count" id="count-web">0 questions</div>
+                  </div>
+                  <div class="cat-check">✓</div>
+                </div>
+
+                <div class="category-item" data-category="cs">
+                  <div class="cat-icon cat-cs">⚙️</div>
+                  <div class="cat-info">
+                    <div class="cat-title" data-i18n="hub.categories.cs">Computer Science</div>
+                    <div class="cat-count" id="count-cs">0 questions</div>
+                  </div>
+                  <div class="cat-check">✓</div>
+                </div>
+
+                <div class="category-item" data-category="science">
+                  <div class="cat-icon cat-science">🔬</div>
+                  <div class="cat-info">
+                    <div class="cat-title" data-i18n="hub.categories.science">Science & Tech</div>
+                    <div class="cat-count" id="count-science">0 questions</div>
+                  </div>
+                  <div class="cat-check">✓</div>
+                </div>
+
+                <div class="category-item" data-category="history">
+                  <div class="cat-icon cat-history">🌍</div>
+                  <div class="cat-info">
+                    <div class="cat-title" data-i18n="hub.categories.history">History & Geography</div>
+                    <div class="cat-count" id="count-history">0 questions</div>
+                  </div>
+                  <div class="cat-check">✓</div>
+                </div>
+
+                <div class="category-item" data-category="custom">
+                  <div class="cat-icon cat-custom">✨</div>
+                  <div class="cat-info">
+                    <div class="cat-title" data-i18n="hub.categories.custom">Custom Questions</div>
+                    <div class="cat-count" id="count-custom">0 questions</div>
+                  </div>
+                  <div class="cat-check">✓</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Quiz Options & Launch -->
+            <div class="hub-card">
+              <div class="card-header">
+                <h2 data-i18n="hub.card.quizSettings">2. Quiz Settings</h2>
+                <span class="card-caption" data-i18n="hub.card.fineTune">Fine-tune your session</span>
+              </div>
+
+              <div class="settings-form">
+                <!-- Mode Selection -->
+                <div class="setting-group">
+                  <label class="setting-label" data-i18n="hub.settings.quizMode">Quiz Mode</label>
+                  <div class="segmented-control" id="mode-selector">
+                    <button type="button" class="segment-btn active" data-mode="practice">
+                      <span class="seg-icon">⚡</span>
+                      <span data-i18n="hub.settings.practice">Practice</span>
+                    </button>
+                    <button type="button" class="segment-btn" data-mode="exam">
+                      <span class="seg-icon">⏱️</span>
+                      <span data-i18n="hub.settings.exam">Exam</span>
+                    </button>
+                    <button type="button" class="segment-btn" data-mode="study">
+                      <span class="seg-icon">📖</span>
+                      <span data-i18n="hub.settings.study">Study</span>
+                    </button>
+                  </div>
+                  <div class="mode-description" id="mode-desc" data-i18n="hub.modes.practiceDesc" data-i18n-html="true">
+                    ⚡ <strong>Practice Mode:</strong> Instant feedback after each question with rationale & streak tracking.
+                  </div>
+                </div>
+
+                <!-- Number of Questions -->
+                <div class="setting-group">
+                  <label class="setting-label" data-i18n="hub.settings.questionCount">Question Count</label>
+                  <div class="chips-row" id="count-selector">
+                    <button type="button" class="chip-btn" data-count="5">5</button>
+                    <button type="button" class="chip-btn active" data-count="10">10</button>
+                    <button type="button" class="chip-btn" data-count="15">15</button>
+                    <button type="button" class="chip-btn" data-count="20">20</button>
+                    <button type="button" class="chip-btn" data-count="all" data-i18n="hub.settings.countMax">Max</button>
+                  </div>
+                </div>
+
+                <!-- Timer Limit -->
+                <div class="setting-group">
+                  <label class="setting-label" data-i18n="hub.settings.timerLimit">Timer Limit</label>
+                  <div class="select-wrapper">
+                    <select id="timer-select" class="form-select">
+                      <option value="none" data-i18n="hub.timer.none">Untimed (No Rush)</option>
+                      <option value="20s" data-i18n="hub.timer.20s">20 seconds per question</option>
+                      <option value="30s" selected data-i18n="hub.timer.30s">30 seconds per question</option>
+                      <option value="5m" data-i18n="hub.timer.5m">5 minutes total test</option>
+                      <option value="10m" data-i18n="hub.timer.10m">10 minutes total test</option>
+                      <option value="15m" data-i18n="hub.timer.15m">15 minutes total test</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Difficulty Filter -->
+                <div class="setting-group">
+                  <label class="setting-label" data-i18n="hub.settings.difficultyLevel">Difficulty Level</label>
+                  <div class="chips-row" id="difficulty-selector">
+                    <button type="button" class="chip-btn active" data-diff="all" data-i18n="hub.difficulty.all">All</button>
+                    <button type="button" class="chip-btn diff-easy" data-diff="easy" data-i18n="hub.difficulty.easy">Easy</button>
+                    <button type="button" class="chip-btn diff-medium" data-diff="medium" data-i18n="hub.difficulty.medium">Medium</button>
+                    <button type="button" class="chip-btn diff-hard" data-diff="hard" data-i18n="hub.difficulty.hard">Hard</button>
+                  </div>
+                </div>
+
+                <!-- Shuffling Options -->
+                <div class="setting-toggles">
+                  <label class="toggle-control">
+                    <input type="checkbox" id="toggle-shuffle-q" checked />
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-text" data-i18n="hub.settings.shuffleQuestions">Shuffle Question Order</span>
+                  </label>
+                  <label class="toggle-control">
+                    <input type="checkbox" id="toggle-shuffle-o" checked />
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-text" data-i18n="hub.settings.shuffleOptions">Shuffle Answer Options</span>
+                  </label>
+                </div>
+
+                <!-- Start Action Button -->
+                <button class="btn btn-primary btn-block btn-lg" id="btn-start-quiz">
+                  <span data-i18n="hub.settings.startQuiz">Start Quiz Now</span>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 2: ACTIVE QUIZ SESSION -->
+        <section id="view-quiz" class="view-panel">
+          <!-- Quiz Top Info Bar -->
+          <div class="quiz-topbar">
+            <div class="topbar-left">
+              <span class="badge category-badge" id="quiz-cat-badge">Web Development</span>
+              <span class="badge diff-badge" id="quiz-diff-badge">Medium</span>
+              <span class="quiz-q-counter" id="quiz-q-counter">Question 1 of 10</span>
+            </div>
+
+            <div class="topbar-center">
+              <div class="timer-badge" id="timer-container">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span id="timer-display">00:30</span>
+              </div>
+            </div>
+
+            <div class="topbar-right">
+              <!-- Flag button -->
+              <button class="btn-flag" id="btn-flag-question" title="Flag for review (Press F)" data-i18n-title="quiz.flagTooltip">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+                  <line x1="4" y1="22" x2="4" y2="15"></line>
+                </svg>
+                <span id="flag-text" data-i18n="quiz.flag">Flag</span>
+              </button>
+
+              <!-- Question Grid Palette Toggle -->
+              <button class="btn-palette" id="btn-open-palette" title="Question Palette" data-i18n-title="quiz.paletteTooltip">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="14" width="7" height="7"></rect>
+                  <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                <span id="palette-status">1/10</span>
+              </button>
+
+              <!-- Quit Quiz -->
+              <button class="icon-btn-danger" id="btn-quit-quiz" title="Exit Quiz" data-i18n-title="quiz.exitTooltip">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="progress-track">
+            <div class="progress-fill" id="quiz-progress-fill" style="width: 10%;"></div>
+          </div>
+
+          <!-- Active Question Card -->
+          <div class="question-container">
+            <div class="question-card" id="current-question-card">
+              <!-- Question Text -->
+              <div class="question-header">
+                <h3 class="question-text" id="question-text" data-i18n="quiz.loading">Loading question...</h3>
+              </div>
+
+              <!-- Optional Code Snippet Block -->
+              <div class="code-snippet-box hidden" id="question-code-box">
+                <pre><code id="question-code"></code></pre>
+              </div>
+
+              <!-- Options Grid -->
+              <div class="options-container" id="options-container">
+                <!-- Dynamically generated options -->
+              </div>
+
+              <!-- Explanation Box (revealed in Practice Mode or after Answer) -->
+              <div class="explanation-box hidden" id="explanation-box">
+                <div class="explanation-header">
+                  <div class="exp-icon" id="exp-status-icon">💡</div>
+                  <strong id="exp-title" data-i18n="quiz.explanationTitle">Explanation</strong>
+                </div>
+                <div class="exp-body" id="exp-content"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quiz Bottom Bar -->
+          <div class="quiz-bottombar">
+            <div class="bottom-left">
+              <button class="btn btn-secondary" id="btn-prev-q">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                <span data-i18n="quiz.previous">Previous</span>
+              </button>
+              <button class="btn btn-ghost" id="btn-clear-selection">
+                <span data-i18n="quiz.clearSelection">Clear Selection</span>
+              </button>
+            </div>
+
+            <div class="bottom-hints">
+              <span class="hint-text" data-i18n="quiz.shortcutsHint" data-i18n-html="true">Shortcuts: <strong>1-4</strong> or <strong>A-D</strong> select • <strong>← / →</strong> navigate</span>
+            </div>
+
+            <div class="bottom-right">
+              <button class="btn btn-primary" id="btn-next-q">
+                <span data-i18n="quiz.next">Next Question</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+              <button class="btn btn-success hidden" id="btn-submit-quiz">
+                <span data-i18n="quiz.submit">Submit Quiz</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 3: RESULTS & IN-DEPTH REVIEW -->
+        <section id="view-results" class="view-panel">
+          <div class="results-container">
+            <!-- Hero Results Card -->
+            <div class="results-hero">
+              <div class="score-circle-wrapper">
+                <svg class="score-svg" viewBox="0 0 120 120">
+                  <circle class="score-circle-bg" cx="60" cy="60" r="50"></circle>
+                  <circle class="score-circle-progress" id="score-circle-progress" cx="60" cy="60" r="50"></circle>
+                </svg>
+                <div class="score-inner-text">
+                  <span class="score-percentage" id="res-score-percent">80%</span>
+                  <span class="score-ratio" id="res-score-ratio">8 / 10</span>
+                </div>
+              </div>
+
+              <div class="results-summary">
+                <div class="results-badge" id="res-badge-status">🏆 Outstanding!</div>
+                <h2 id="res-heading">You passed with flying colors!</h2>
+                <p id="res-description">Great job on completing this session. Review your answers below to reinforce your knowledge.</p>
+
+                <div class="results-actions-row">
+                  <button class="btn btn-primary" id="btn-retake-all">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="1 4 1 10 7 10"></polyline>
+                      <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                    </svg>
+                    <span data-i18n="results.actions.retake">Retake Quiz</span>
+                  </button>
+                  <button class="btn btn-warning hidden" id="btn-retry-mistakes">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="8" x2="12" y2="12"></line>
+                      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <span><span data-i18n="results.actions.practiceMistakesLabel">Practice Mistakes</span> (<span id="mistake-count">0</span>)</span>
+                  </button>
+                  <button class="btn btn-secondary" id="btn-new-quiz-hub">
+                    <span data-i18n="results.actions.backToHub">Back to Hub</span>
+                  </button>
+                  <button class="btn btn-ghost" id="btn-export-results" title="Export results as JSON" data-i18n-title="results.actions.exportTooltip">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                      <polyline points="7 10 12 15 17 10"></polyline>
+                      <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span data-i18n="results.actions.export">Export</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stats Metrics Grid -->
+            <div class="stats-grid">
+              <div class="metric-card">
+                <div class="metric-icon metric-correct">✓</div>
+                <div class="metric-data">
+                  <div class="metric-val" id="res-correct-count">0</div>
+                  <div class="metric-lbl" data-i18n="results.metrics.correct">Correct Answers</div>
+                </div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-icon metric-wrong">✕</div>
+                <div class="metric-data">
+                  <div class="metric-val" id="res-wrong-count">0</div>
+                  <div class="metric-lbl" data-i18n="results.metrics.wrong">Incorrect Answers</div>
+                </div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-icon metric-skipped">○</div>
+                <div class="metric-data">
+                  <div class="metric-val" id="res-skipped-count">0</div>
+                  <div class="metric-lbl" data-i18n="results.metrics.skipped">Skipped / Unanswered</div>
+                </div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-icon metric-time">⏱️</div>
+                <div class="metric-data">
+                  <div class="metric-val" id="res-time-spent">0m 00s</div>
+                  <div class="metric-lbl" data-i18n="results.metrics.timeSpent">Time Elapsed</div>
+                </div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-icon metric-avg">⚡</div>
+                <div class="metric-data">
+                  <div class="metric-val" id="res-avg-time">0s</div>
+                  <div class="metric-lbl" data-i18n="results.metrics.avgTime">Avg / Question</div>
+                </div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-icon metric-flagged">🚩</div>
+                <div class="metric-data">
+                  <div class="metric-val" id="res-flagged-count">0</div>
+                  <div class="metric-lbl" data-i18n="results.metrics.flagged">Flagged for Review</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Detailed Question Review List -->
+            <div class="review-section">
+              <div class="review-header">
+                <h3 data-i18n="results.review.title">Detailed Answer Breakdown</h3>
+                <!-- Filter Tabs -->
+                <div class="review-filters">
+                  <button class="filter-tab active" data-filter="all" id="rev-filter-all"><span data-i18n="results.review.allLabel">All</span> (<span id="tab-cnt-all">0</span>)</button>
+                  <button class="filter-tab" data-filter="correct" id="rev-filter-correct"><span data-i18n="results.review.correctLabel">Correct</span> (<span id="tab-cnt-correct">0</span>)</button>
+                  <button class="filter-tab" data-filter="wrong" id="rev-filter-wrong"><span data-i18n="results.review.wrongLabel">Incorrect</span> (<span id="tab-cnt-wrong">0</span>)</button>
+                  <button class="filter-tab" data-filter="flagged" id="rev-filter-flagged"><span data-i18n="results.review.flaggedLabel">Flagged</span> (<span id="tab-cnt-flagged">0</span>)</button>
+                </div>
+              </div>
+
+              <div class="review-list" id="review-cards-list">
+                <!-- Dynamically generated review cards -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 4: QUESTION BANK & MANAGER -->
+        <section id="view-bank" class="view-panel">
+          <div class="bank-container">
+            <div class="bank-topbar">
+              <div>
+                <h2 data-i18n="bank.title">Question Bank Management</h2>
+                <p data-i18n="bank.subtitle">Browse existing questions, create your own custom assessments, or import via JSON.</p>
+              </div>
+              <div class="bank-actions">
+                <button class="btn btn-secondary" id="btn-import-export-modal">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                  <span data-i18n="bank.importExport">Import / Export</span>
+                </button>
+                <button class="btn btn-primary" id="btn-add-question-modal">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                  <span data-i18n="bank.addNewQuestion">Add New Question</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Filter and search bar -->
+            <div class="bank-filter-bar">
+              <div class="search-input-wrapper">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="bank-search-input" placeholder="Search questions or keywords..." data-i18n-placeholder="bank.searchPlaceholder" />
+              </div>
+
+              <div class="bank-selects">
+                <select id="bank-filter-category" class="form-select">
+                  <option value="all" data-i18n="bank.allCategories">All Categories</option>
+                  <option value="web" data-i18n="common.categoryLabels.web">Web & JavaScript</option>
+                  <option value="cs" data-i18n="common.categoryLabels.cs">Computer Science</option>
+                  <option value="science" data-i18n="common.categoryLabels.science">Science & Tech</option>
+                  <option value="history" data-i18n="common.categoryLabels.history">History & Geography</option>
+                  <option value="custom" data-i18n="common.categoryLabels.custom">Custom Questions</option>
+                </select>
+
+                <select id="bank-filter-difficulty" class="form-select">
+                  <option value="all" data-i18n="bank.allDifficulties">All Difficulties</option>
+                  <option value="easy" data-i18n="common.difficultyLabels.easy">Easy</option>
+                  <option value="medium" data-i18n="common.difficultyLabels.medium">Medium</option>
+                  <option value="hard" data-i18n="common.difficultyLabels.hard">Hard</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Questions count indicator -->
+            <div class="bank-counter" id="bank-counter">Showing 0 of 0 questions</div>
+
+            <!-- Questions list -->
+            <div class="bank-list" id="bank-items-list">
+              <!-- Dynamically populated question cards -->
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 5: HISTORY & ANALYTICS -->
+        <section id="view-history" class="view-panel">
+          <div class="history-container">
+            <div class="history-topbar">
+              <div>
+                <h2 data-i18n="history.title">Your Assessment History</h2>
+                <p data-i18n="history.subtitle">Review past test performances, score progressions, and completed attempts.</p>
+              </div>
+              <button class="btn btn-ghost-danger" id="btn-clear-history">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                <span data-i18n="history.clear">Clear History</span>
+              </button>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="history-stats-cards">
+              <div class="history-card">
+                <div class="hist-label" data-i18n="history.totalAttempts">Total Attempts</div>
+                <div class="hist-value" id="hist-total-attempts">0</div>
+              </div>
+              <div class="history-card">
+                <div class="hist-label" data-i18n="history.bestScore">Best Score</div>
+                <div class="hist-value" id="hist-best-score">-%</div>
+              </div>
+              <div class="history-card">
+                <div class="hist-label" data-i18n="history.overallAccuracy">Overall Accuracy</div>
+                <div class="hist-value" id="hist-avg-accuracy">-%</div>
+              </div>
+              <div class="history-card">
+                <div class="hist-label" data-i18n="history.totalTime">Total Time Invested</div>
+                <div class="hist-value" id="hist-total-time">0m</div>
+              </div>
+            </div>
+
+            <!-- Attempts List -->
+            <div class="history-list-section">
+              <h3 data-i18n="history.recentSessions">Recent Sessions</h3>
+              <div class="history-list" id="history-items-list">
+                <!-- Dynamically populated history entries -->
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- ================= MODALS ================= -->
+
+      <!-- Question Palette / Drawer Modal -->
+      <div class="modal-overlay hidden" id="modal-palette">
+        <div class="modal-card modal-palette-card">
+          <div class="modal-header">
+            <h3 data-i18n="modal.palette.title">Question Navigator</h3>
+            <button class="icon-btn close-modal" data-modal="modal-palette">✕</button>
+          </div>
+          <div class="palette-legend">
+            <span class="legend-item"><span class="legend-dot status-current"></span> <span data-i18n="modal.palette.current">Current</span></span>
+            <span class="legend-item"><span class="legend-dot status-answered"></span> <span data-i18n="modal.palette.answered">Answered</span></span>
+            <span class="legend-item"><span class="legend-dot status-flagged"></span> <span data-i18n="modal.palette.flagged">Flagged</span></span>
+            <span class="legend-item"><span class="legend-dot status-unanswered"></span> <span data-i18n="modal.palette.unanswered">Unanswered</span></span>
+          </div>
+          <div class="palette-grid" id="palette-grid">
+            <!-- Dynamically generated number buttons -->
+          </div>
+          <div class="palette-footer">
+            <div class="palette-stats" id="palette-footer-stats">3 of 10 answered</div>
+            <button class="btn btn-success" id="palette-submit-btn" data-i18n="modal.palette.submit">Submit Test</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Confirm Submission Modal -->
+      <div class="modal-overlay hidden" id="modal-confirm">
+        <div class="modal-card modal-dialog">
+          <div class="modal-header">
+            <h3 id="confirm-title">Submit Quiz?</h3>
+            <button class="icon-btn close-modal" data-modal="modal-confirm">✕</button>
+          </div>
+          <div class="modal-body" id="confirm-body">
+            Are you sure you want to finish and submit your quiz?
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary close-modal" data-modal="modal-confirm" data-i18n="modal.confirm.continue">Continue Quiz</button>
+            <button class="btn btn-primary" id="btn-confirm-submit-action" data-i18n="modal.confirm.submit">Submit Now</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Generic In-App Confirmation Modal (native confirm() is disabled in Tauri/WKWebView) -->
+      <div class="modal-overlay hidden" id="modal-app-confirm">        <div class="modal-card modal-dialog" role="dialog" aria-modal="true" aria-labelledby="app-confirm-title">
+          <div class="modal-header">
+            <h3 id="app-confirm-title">Confirm</h3>
+            <button type="button" class="icon-btn" id="btn-app-confirm-close" aria-label="Close" data-i18n-aria-label="modal.io.close">✕</button>
+          </div>
+          <div class="modal-body" id="app-confirm-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="btn-app-confirm-cancel">Cancel</button>
+            <button type="button" class="btn btn-primary" id="btn-app-confirm-ok">Confirm</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add / Edit Question Modal -->
+      <div class="modal-overlay hidden" id="modal-question-editor">        <div class="modal-card modal-form-card">
+          <div class="modal-header">
+            <h3 id="editor-modal-title" data-i18n="modal.editor.addTitle">Add New Question</h3>
+            <button class="icon-btn close-modal" data-modal="modal-question-editor">✕</button>
+          </div>
+          <form id="form-question-editor" class="editor-form">
+            <input type="hidden" id="edit-q-id" />
+            <div class="form-row">
+              <div class="form-group flex-1">
+                <label for="edit-q-category" data-i18n="modal.editor.category">Category</label>
+                <select id="edit-q-category" class="form-select" required>
+                  <option value="custom" data-i18n="common.categoryLabels.custom">Custom Questions</option>
+                  <option value="web" data-i18n="common.categoryLabels.web">Web & JavaScript</option>
+                  <option value="cs" data-i18n="common.categoryLabels.cs">Computer Science</option>
+                  <option value="science" data-i18n="common.categoryLabels.science">Science & Tech</option>
+                  <option value="history" data-i18n="common.categoryLabels.history">History & Geography</option>
+                </select>
+                <input
+                  type="text"
+                  id="edit-q-category-new"
+                  class="form-input category-new-input hidden"
+                  placeholder="Enter a category name"
+                  data-i18n-placeholder="modal.editor.newCategoryPlaceholder"
+                />
+              </div>
+              <div class="form-group flex-1">
+                <label for="edit-q-difficulty" data-i18n="modal.editor.difficulty">Difficulty</label>
+                <select id="edit-q-difficulty" class="form-select" required>
+                  <option value="easy" data-i18n="common.difficultyLabels.easy">Easy</option>
+                  <option value="medium" selected data-i18n="common.difficultyLabels.medium">Medium</option>
+                  <option value="hard" data-i18n="common.difficultyLabels.hard">Hard</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="edit-q-text" data-i18n="modal.editor.prompt">Question Prompt</label>
+              <textarea id="edit-q-text" class="form-textarea" rows="3" placeholder="Enter your question statement..." data-i18n-placeholder="modal.editor.promptPlaceholder" required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="edit-q-code" data-i18n="modal.editor.code">Optional Code Snippet</label>
+              <textarea id="edit-q-code" class="form-textarea code-font" rows="2" placeholder="// Code block (optional)..." data-i18n-placeholder="modal.editor.codePlaceholder"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="modal.editor.choices">Answer Choices (Select the radio button for the correct option)</label>
+              <div class="editor-options-list">
+                <div class="option-input-row">
+                  <input type="radio" name="correct-choice" value="0" checked title="Correct Answer" data-i18n-title="modal.editor.correctAnswer" />
+                  <span class="opt-label">A</span>
+                  <input type="text" id="edit-opt-0" class="form-input" placeholder="Option A" data-i18n-placeholder="modal.editor.optionA" required />
+                </div>
+                <div class="option-input-row">
+                  <input type="radio" name="correct-choice" value="1" title="Correct Answer" data-i18n-title="modal.editor.correctAnswer" />
+                  <span class="opt-label">B</span>
+                  <input type="text" id="edit-opt-1" class="form-input" placeholder="Option B" data-i18n-placeholder="modal.editor.optionB" required />
+                </div>
+                <div class="option-input-row">
+                  <input type="radio" name="correct-choice" value="2" title="Correct Answer" data-i18n-title="modal.editor.correctAnswer" />
+                  <span class="opt-label">C</span>
+                  <input type="text" id="edit-opt-2" class="form-input" placeholder="Option C" data-i18n-placeholder="modal.editor.optionC" required />
+                </div>
+                <div class="option-input-row">
+                  <input type="radio" name="correct-choice" value="3" title="Correct Answer" data-i18n-title="modal.editor.correctAnswer" />
+                  <span class="opt-label">D</span>
+                  <input type="text" id="edit-opt-3" class="form-input" placeholder="Option D" data-i18n-placeholder="modal.editor.optionD" required />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="edit-q-explanation" data-i18n="modal.editor.explanation">Explanation / Solution Note</label>
+              <textarea id="edit-q-explanation" class="form-textarea" rows="2" placeholder="Explain why the correct answer is right..." data-i18n-placeholder="modal.editor.explanationPlaceholder"></textarea>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary close-modal" data-modal="modal-question-editor" data-i18n="modal.editor.cancel">Cancel</button>
+              <button type="submit" class="btn btn-primary" id="btn-save-question" data-i18n="modal.editor.save">Save Question</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Import / Export Modal -->
+      <div class="modal-overlay hidden" id="modal-import-export">
+        <div class="modal-card modal-io-card">
+          <div class="modal-header">
+            <h3 data-i18n="modal.io.title">Import / Export Question Bank</h3>
+            <button class="icon-btn close-modal" data-modal="modal-import-export">✕</button>
+          </div>
+          <div class="modal-body">
+            <p class="io-description" data-i18n="modal.io.desc" data-i18n-html="true">Backup, edit, or sync your questions in JSON format. Drag & drop a <code>.json</code> file or use the actions below.</p>
+
+            <div class="io-actions-bar" style="display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center;">
+              <button class="btn btn-secondary btn-sm" id="btn-upload-json" title="Select a .json file from your computer" data-i18n="modal.io.openFile" data-i18n-title="modal.io.openFileTooltip">📁 Open JSON File</button>
+              <button class="btn btn-secondary btn-sm" id="btn-reload-file-json" title="Sync questions from project questions.json" data-i18n="modal.io.syncFile" data-i18n-title="modal.io.syncTooltip">🔄 Sync questions.json</button>
+              <button class="btn btn-secondary btn-sm" id="btn-download-json" title="Save current questions as a JSON file" data-i18n="modal.io.download" data-i18n-title="modal.io.downloadTooltip">💾 Download JSON</button>
+              <button class="btn btn-secondary btn-sm" id="btn-copy-json" title="Copy JSON data to clipboard" data-i18n="modal.io.copy" data-i18n-title="modal.io.copyTooltip">📋 Copy JSON</button>
+              <button class="btn btn-ghost-danger btn-sm" id="btn-reset-default-bank" title="Reset bank to default questions" data-i18n="modal.io.restoreDefaults" data-i18n-title="modal.io.restoreTooltip">Restore Defaults</button>
+              <input type="file" id="io-file-input" accept=".json,application/json" style="display: none;" />
+            </div>
+
+            <div class="form-group">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+                <label for="io-json-textarea" style="margin-bottom:0;" data-i18n="modal.io.dataLabel">JSON Data (Edit directly or drop file)</label>
+                <button type="button" id="btn-sample-template" style="font-size:0.75rem; background:none; border:none; color:var(--primary); cursor:pointer; text-decoration:underline;" data-i18n="modal.io.loadSample">Load Sample Template</button>
+              </div>
+              <textarea id="io-json-textarea" class="form-textarea code-font" rows="11" placeholder="Paste questions JSON here, or drag and drop a .json file..." data-i18n-placeholder="modal.io.placeholder"></textarea>
+            </div>
+            <div id="io-status-msg" class="io-status-message"></div>
+          </div>
+          <div class="modal-footer" style="justify-content:space-between; flex-wrap:wrap; gap:0.5rem;">
+            <button class="btn btn-secondary close-modal" data-modal="modal-import-export" data-i18n="modal.io.close">Close</button>
+            <div style="display:flex; gap:0.5rem;">
+              <button class="btn btn-warning" id="btn-apply-replace" title="Replace entire question bank with this JSON" data-i18n="modal.io.replaceAll" data-i18n-title="modal.io.replaceAllTooltip">Replace All Questions</button>
+              <button class="btn btn-primary" id="btn-apply-import" title="Add questions from this JSON to current bank" data-i18n="modal.io.append" data-i18n-title="modal.io.appendTooltip">Append Questions</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Keyboard Shortcuts Modal -->
+      <div class="modal-overlay hidden" id="modal-shortcuts">
+        <div class="modal-card modal-shortcuts-card">
+          <div class="modal-header">
+            <h3 data-i18n="modal.shortcuts.title">Keyboard Shortcuts</h3>
+            <button class="icon-btn close-modal" data-modal="modal-shortcuts">✕</button>
+          </div>
+          <div class="shortcuts-grid">
+            <div class="shortcut-row"><kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd> / <kbd>4</kbd> <span data-i18n="modal.shortcuts.selectOption">Select Option A, B, C, or D</span></div>
+            <div class="shortcut-row"><kbd>A</kbd> / <kbd>B</kbd> / <kbd>C</kbd> / <kbd>D</kbd> <span data-i18n="modal.shortcuts.selectOption">Select Option A, B, C, or D</span></div>
+            <div class="shortcut-row"><kbd>→</kbd> or <kbd>J</kbd> <span data-i18n="modal.shortcuts.next">Next Question</span></div>
+            <div class="shortcut-row"><kbd>←</kbd> or <kbd>K</kbd> <span data-i18n="modal.shortcuts.prev">Previous Question</span></div>
+            <div class="shortcut-row"><kbd>F</kbd> <span data-i18n="modal.shortcuts.flag">Flag / Unflag Question</span></div>
+            <div class="shortcut-row"><kbd>P</kbd> <span data-i18n="modal.shortcuts.palette">Open Question Navigator / Palette</span></div>
+            <div class="shortcut-row"><kbd>Esc</kbd> <span data-i18n="modal.shortcuts.esc">Close active modal</span></div>
+            <div class="shortcut-row"><kbd>?</kbd> <span data-i18n="modal.shortcuts.help">Toggle Shortcuts Help</span></div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary close-modal" data-modal="modal-shortcuts" data-i18n="modal.shortcuts.gotIt">Got it!</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toast Notification Container -->
+      <div id="toast-container" class="toast-container"></div>
+    </div>
+  </body>
+</html>

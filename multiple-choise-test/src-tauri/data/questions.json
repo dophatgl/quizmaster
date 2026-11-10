@@ -1,0 +1,302 @@
+[
+  {
+    "id": "web-1",
+    "category": "web",
+    "difficulty": "medium",
+    "question": "What is the output of the following JavaScript expression?",
+    "code": "console.log(typeof NaN);",
+    "options": [
+      "\"number\"",
+      "\"nan\"",
+      "\"undefined\"",
+      "\"object\""
+    ],
+    "correct": 0,
+    "explanation": "In JavaScript, NaN ('Not-a-Number') is technically a numeric data type specified by IEEE 754 floating-point standards."
+  },
+  {
+    "id": "web-2",
+    "category": "web",
+    "difficulty": "easy",
+    "question": "Which HTML5 semantic element is most appropriate for independent, self-contained syndicateable content?",
+    "code": null,
+    "options": [
+      "<section>",
+      "<article>",
+      "<aside>",
+      "<main>"
+    ],
+    "correct": 1,
+    "explanation": "The <article> element specifies independent, self-contained content such as blog posts, news stories, or forum comments."
+  },
+  {
+    "id": "web-3",
+    "category": "web",
+    "difficulty": "hard",
+    "question": "In the JavaScript Event Loop, which queue takes highest priority when the current synchronous call stack clears?",
+    "code": null,
+    "options": [
+      "Macro-task Queue (setTimeout)",
+      "Micro-task Queue (Promise.then)",
+      "Animation Frame Queue",
+      "I/O Polling Queue"
+    ],
+    "correct": 1,
+    "explanation": "Micro-tasks (like Promise callbacks and queueMicrotask) are processed immediately after the current script executes and before rendering or the next macro-task."
+  },
+  {
+    "id": "web-4",
+    "category": "web",
+    "difficulty": "medium",
+    "question": "In CSS Flexbox, which property aligns flex items along the cross axis?",
+    "code": null,
+    "options": [
+      "justify-content",
+      "align-items",
+      "align-content",
+      "flex-direction"
+    ],
+    "correct": 1,
+    "explanation": "While 'justify-content' aligns items along the main axis, 'align-items' aligns items along the cross axis."
+  },
+  {
+    "id": "web-5",
+    "category": "web",
+    "difficulty": "easy",
+    "question": "Which method is used to convert a JavaScript object into a JSON string?",
+    "code": "const user = { name: 'Alice' };",
+    "options": [
+      "JSON.parse(user)",
+      "JSON.stringify(user)",
+      "user.toJSON()",
+      "JSON.objectify(user)"
+    ],
+    "correct": 1,
+    "explanation": "JSON.stringify() serializes a JavaScript value or object to a JSON string, whereas JSON.parse() parses a JSON string back into a JavaScript object."
+  },
+  {
+    "id": "cs-1",
+    "category": "cs",
+    "difficulty": "medium",
+    "question": "What is the worst-case time complexity of standard QuickSort with poor pivot selection?",
+    "code": null,
+    "options": [
+      "O(n log n)",
+      "O(n²)",
+      "O(n)",
+      "O(log n)"
+    ],
+    "correct": 1,
+    "explanation": "When QuickSort consistently chooses the smallest or largest element as pivot (e.g. on an already sorted array without randomized pivots), time complexity degrades to O(n²)."
+  },
+  {
+    "id": "cs-2",
+    "category": "cs",
+    "difficulty": "easy",
+    "question": "Which data structure operates on a Last-In, First-Out (LIFO) principle?",
+    "code": null,
+    "options": [
+      "Queue",
+      "Stack",
+      "Linked List",
+      "Binary Heap"
+    ],
+    "correct": 1,
+    "explanation": "A Stack operates on LIFO (Last-In, First-Out), where push and pop occur at the same top end. Queues operate on FIFO."
+  },
+  {
+    "id": "cs-3",
+    "category": "cs",
+    "difficulty": "medium",
+    "question": "What is the average lookup time complexity in a well-balanced Hash Table?",
+    "code": null,
+    "options": [
+      "O(1)",
+      "O(log n)",
+      "O(n)",
+      "O(n log n)"
+    ],
+    "correct": 0,
+    "explanation": "Hash tables provide average O(1) constant time lookup, insertion, and deletion assuming a good distribution hash function."
+  },
+  {
+    "id": "cs-4",
+    "category": "cs",
+    "difficulty": "hard",
+    "question": "Which algorithm is designed to find the shortest path in a weighted graph with non-negative edge weights?",
+    "code": null,
+    "options": [
+      "Bellman-Ford",
+      "Dijkstra's Algorithm",
+      "Floyd-Warshall",
+      "Kruskal's Algorithm"
+    ],
+    "correct": 1,
+    "explanation": "Dijkstra's algorithm finds single-source shortest paths on graphs with non-negative weights in O((V + E) log V) with a binary priority queue."
+  },
+  {
+    "id": "cs-5",
+    "category": "cs",
+    "difficulty": "medium",
+    "question": "In binary representation, what decimal value does the 8-bit unsigned integer `00101010` represent?",
+    "code": null,
+    "options": [
+      "34",
+      "42",
+      "58",
+      "64"
+    ],
+    "correct": 1,
+    "explanation": "00101010 in binary = 32 + 8 + 2 = 42."
+  },
+  {
+    "id": "sci-1",
+    "category": "science",
+    "difficulty": "easy",
+    "question": "What is the approximate speed of light in a vacuum?",
+    "code": null,
+    "options": [
+      "300,000 km/s",
+      "150,000 km/s",
+      "30,000 km/s",
+      "1,080,000 km/s"
+    ],
+    "correct": 0,
+    "explanation": "The speed of light in a vacuum is exactly 299,792,458 m/s, which rounds to approximately 300,000 km/s."
+  },
+  {
+    "id": "sci-2",
+    "category": "science",
+    "difficulty": "medium",
+    "question": "Which nucleotide base pairs with Adenine in a standard DNA double helix?",
+    "code": null,
+    "options": [
+      "Cytosine",
+      "Thymine",
+      "Guanine",
+      "Uracil"
+    ],
+    "correct": 1,
+    "explanation": "In DNA, Adenine (A) pairs with Thymine (T) via two hydrogen bonds. In RNA, Uracil replaces Thymine."
+  },
+  {
+    "id": "sci-3",
+    "category": "science",
+    "difficulty": "hard",
+    "question": "What phenomenon in quantum mechanics describes two particles remaining connected so that actions performed on one instantly affect the other?",
+    "code": null,
+    "options": [
+      "Quantum Tunneling",
+      "Quantum Entanglement",
+      "Wave-Particle Duality",
+      "Superposition"
+    ],
+    "correct": 1,
+    "explanation": "Quantum entanglement is the physical phenomenon where pairs or groups of particles interact such that the quantum state of each particle cannot be described independently."
+  },
+  {
+    "id": "sci-4",
+    "category": "science",
+    "difficulty": "easy",
+    "question": "What is the primary chemical element that makes up the majority of the Sun's mass?",
+    "code": null,
+    "options": [
+      "Helium",
+      "Hydrogen",
+      "Oxygen",
+      "Carbon"
+    ],
+    "correct": 1,
+    "explanation": "Hydrogen accounts for approximately 73% of the Sun's mass, with Helium making up roughly 25%."
+  },
+  {
+    "id": "sci-5",
+    "category": "science",
+    "difficulty": "medium",
+    "question": "In machine learning, what term refers to a model learning the noise in training data so closely that it performs poorly on new data?",
+    "code": null,
+    "options": [
+      "Underfitting",
+      "Overfitting",
+      "Gradient descent",
+      "Regularization"
+    ],
+    "correct": 1,
+    "explanation": "Overfitting occurs when a mathematical model learns spurious noise and specific training artifacts, impairing generalizability."
+  },
+  {
+    "id": "hist-1",
+    "category": "history",
+    "difficulty": "easy",
+    "question": "What is the capital city of Australia?",
+    "code": null,
+    "options": [
+      "Sydney",
+      "Melbourne",
+      "Canberra",
+      "Brisbane"
+    ],
+    "correct": 2,
+    "explanation": "Canberra was chosen as a compromise between rival cities Sydney and Melbourne in 1908."
+  },
+  {
+    "id": "hist-2",
+    "category": "history",
+    "difficulty": "medium",
+    "question": "In which year did the Apollo 11 mission successfully land the first humans on the Moon?",
+    "code": null,
+    "options": [
+      "1965",
+      "1969",
+      "1971",
+      "1973"
+    ],
+    "correct": 1,
+    "explanation": "Apollo 11 landed astronauts Neil Armstrong and Buzz Aldrin on the Moon on July 20, 1969."
+  },
+  {
+    "id": "hist-3",
+    "category": "history",
+    "difficulty": "medium",
+    "question": "Which ancient civilization built the monumental Machu Picchu sanctuary in the Andes?",
+    "code": null,
+    "options": [
+      "Aztec",
+      "Maya",
+      "Inca",
+      "Olmec"
+    ],
+    "correct": 2,
+    "explanation": "Machu Picchu is a 15th-century Inca citadel located in the Eastern Cordillera of southern Peru."
+  },
+  {
+    "id": "hist-4",
+    "category": "history",
+    "difficulty": "hard",
+    "question": "What strait separates the continent of Asia from North America?",
+    "code": null,
+    "options": [
+      "Strait of Gibraltar",
+      "Bering Strait",
+      "Malacca Strait",
+      "Bosphorus Strait"
+    ],
+    "correct": 1,
+    "explanation": "The Bering Strait connects the Bering Sea with the Chukchi Sea, separating Russia (Asia) from Alaska (North America)."
+  },
+  {
+    "id": "hist-5",
+    "category": "history",
+    "difficulty": "easy",
+    "question": "Which river is widely recognized as the longest in South America?",
+    "code": null,
+    "options": [
+      "Paraná River",
+      "Amazon River",
+      "Orinoco River",
+      "Magdalena River"
+    ],
+    "correct": 1,
+    "explanation": "The Amazon River is the longest river in South America and by far the largest by discharge volume in the world."
+  }
+]

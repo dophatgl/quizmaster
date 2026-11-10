@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://quizmaster.app/questions.schema.json",
+  "title": "QuizMaster Question Bank",
+  "description": "Schema for QuizMaster multiple choice questions data file.",
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/Question"
+  },
+  "definitions": {
+    "Question": {
+      "type": "object",
+      "required": ["question", "options", "correct"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the question (e.g. 'web-1', 'cs-2'). Auto-generated if omitted."
+        },
+        "category": {
+          "type": "string",
+          "description": "Category key such as 'web', 'cs', 'science', 'history', or 'custom'.",
+          "default": "custom"
+        },
+        "difficulty": {
+          "type": "string",
+          "enum": ["easy", "medium", "hard"],
+          "description": "Difficulty level of the question.",
+          "default": "medium"
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The main question statement or prompt."
+        },
+        "code": {
+          "type": ["string", "null"],
+          "description": "Optional code snippet or preformatted text displayed with the question."
+        },
+        "options": {
+          "type": "array",
+          "description": "List of answer choices (minimum 2 options, typically 4).",
+          "minItems": 2,
+          "items": {
+            "type": "string"
+          }
+        },
+        "correct": {
+          "description": "The correct answer choice. Can be a 0-based index (0, 1, 2, 3), a letter ('A', 'B', 'C', 'D'), or the exact answer string.",
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "description": "0-based index of the correct option (0 = A, 1 = B, 2 = C, 3 = D)."
+            },
+            {
+              "type": "string",
+              "description": "Option letter ('A', 'B', 'C', 'D') or the text matching one of the options."
+            }
+          ]
+        },
+        "explanation": {
+          "type": ["string", "null"],
+          "description": "Detailed explanation shown in practice mode or during answer review."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

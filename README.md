@@ -1,20 +1,37 @@
-# QuizMaster - Multiple Choice App
+# QuizMaster
 
-A high-performance multiple-choice testing application with a native Rust backend and vanilla HTML/CSS/JS frontend powered by Tauri v2.
+QuizMaster is a desktop multiple-choice quiz studio built with Tauri v2, Rust, and a vanilla HTML/CSS/JavaScript frontend. Create and take quizzes, manage question banks, and review past results in one place.
+
+## Screenshots
+
+### Quiz Hub
+
+Choose a topic and configure a practice, exam, or study session. Set the question count, timer, difficulty, and shuffle options before starting.
+
+![Quiz Hub with category selection and quiz settings](screenshots/1.png)
+
+### Question Bank
+
+Search and filter questions, review their answer choices, and add, edit, delete, or import and export questions.
+
+![Question Bank with searchable questions and editing controls](screenshots/2.png)
+
+### Assessment History
+
+Review completed sessions, including attempts, best score, overall accuracy, time invested, and per-session results.
+
+![Assessment history with score summaries and recent sessions](screenshots/3.png)
 
 ## Question Bank & Customization
 
-The question bank has been refactored into human-readable, easily customizable JSON format:
-- **[questions.json](file:///questions.json)**: The central questions database.
-- **[questions.schema.json](file:///questions.schema.json)**: JSON schema with autocompletion and instant validation in VS Code/editors.
-- **[QUESTIONS_GUIDE.md](file:///QUESTIONS_GUIDE.md)**: Full guide with examples for adding and updating questions.
+Questions are stored in human-readable JSON and can be customized:
 
-### Question Updating Highlights
-- **Human-Friendly Fields**: `correct` accepts 0-based indices (`0`, `1`, `2`, `3`), letter options (`"A"`, `"B"`, `"C"`, `"D"`), or exact option text.
-- **Optional Attributes**: Auto-generates IDs if omitted, with sensible defaults for category and difficulty.
-- **App UI Integration**: Import via file picker, drag-and-drop `.json` files, replace or merge banks, and one-click sync from `questions.json`.
-- **Dual Support**: Works seamlessly both in native Tauri (Rust) and in standalone browser previews.
+- [questions.json](questions.json): the question database.
+- [questions.schema.json](questions.schema.json): JSON schema for editor autocomplete and validation.
+- [QUESTIONS_GUIDE.md](QUESTIONS_GUIDE.md): instructions and examples for editing questions.
 
-## Recommended IDE Setup
+The `correct` field accepts a zero-based answer index (`0`–`3`), an option letter (`"A"`–`"D"`), or the exact option text. IDs can be generated automatically, and category and difficulty have defaults. The app supports importing JSON by file picker or drag and drop, replacing or merging a bank, and syncing from `questions.json`.
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+## Development
+
+The Tauri application is in [`multiple-choise-test/`](multiple-choise-test/). See its [README](multiple-choise-test/README.md) for project-specific setup instructions.
